@@ -32,3 +32,4 @@ class CreateAtendimentosTable extends Migration
         Schema::dropIfExists('atendimentos');
     }
 }
+#teste
