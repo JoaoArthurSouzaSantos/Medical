@@ -2,64 +2,51 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Atendimento;
 use Illuminate\Http\Request;
+use App\Models\Atendimento;
 
 class AtendimentoController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
     public function index()
     {
-        //
+        $atendimentos = Atendimento::all();
+        return view('atendimentos.index', compact('atendimentos'));
     }
 
-    /**
-     * Show the form for creating a new resource.
-     */
     public function create()
     {
-        //
+        return view('atendimentos.create');
     }
 
-    /**
-     * Store a newly created resource in storage.
-     */
     public function store(Request $request)
     {
-        //
+        Atendimento::create($request->all());
+        return redirect()->route('atendimentos.index')->with('success', 'Atendimento criado com sucesso.');
     }
 
-    /**
-     * Display the specified resource.
-     */
-    public function show(Atendimento $atendimento)
+    public function show($id)
     {
-        //
+        $atendimento = Atendimento::findOrFail($id);
+        return view('atendimentos.show', compact('atendimento'));
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(Atendimento $atendimento)
+    public function edit($id)
     {
-        //
+        $atendimento = Atendimento::findOrFail($id);
+        return view('atendimentos.edit', compact('atendimento'));
     }
 
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, Atendimento $atendimento)
+    public function update(Request $request, $id)
     {
-        //
+        $atendimento = Atendimento::findOrFail($id);
+        $atendimento->update($request->all());
+        return redirect()->route('atendimentos.index')->with('success', 'Atendimento atualizado com sucesso.');
     }
 
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(Atendimento $atendimento)
+    public function destroy($id)
     {
-        //
+        $atendimento = Atendimento::findOrFail($id);
+        $atendimento->delete();
+        return redirect()->route('atendimentos.index')->with('success', 'Atendimento removido com sucesso.');
     }
 }
